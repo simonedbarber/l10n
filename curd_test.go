@@ -3,9 +3,9 @@ package l10n_test
 import (
 	"testing"
 
-	"github.com/jinzhu/gorm"
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/qor/l10n"
+	"github.com/simonedbarber/l10n"
+	"gorm.io/gorm"
 
 	_ "github.com/go-sql-driver/mysql"
 )

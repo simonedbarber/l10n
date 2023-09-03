@@ -3,8 +3,8 @@ package l10n
 import (
 	"reflect"
 
-	"github.com/jinzhu/gorm"
-	"github.com/qor/qor/utils"
+	"github.com/simonedbarber/qor/utils"
+	"gorm.io/gorm"
 )
 
 // IsLocalizable return model is localizable or not

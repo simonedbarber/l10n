@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/jinzhu/gorm"
-	"github.com/qor/admin"
-	"github.com/qor/l10n"
-	"github.com/qor/publish"
-	"github.com/qor/qor"
+	"github.com/simonedbarber/admin"
+	"github.com/simonedbarber/l10n"
+	"github.com/simonedbarber/publish"
+	"github.com/simonedbarber/qor"
+	"gorm.io/gorm"
 )
 
 type availableLocalesInterface interface {
@@ -58,7 +58,7 @@ func RegisterL10nForPublish(Publish *publish.Publish, Admin *admin.Admin) {
 		return searchHandler(db, context).Set("l10n:mode", "unscoped")
 	}
 
-	Admin.RegisterViewPath("github.com/qor/l10n/publish/views")
+	Admin.RegisterViewPath("github.com/simonedbarber/l10n/publish/views")
 
 	Admin.RegisterFuncMap("publishable_locales", func(context admin.Context) []string {
 		return getPublishableLocales(context.Request, context.CurrentUser)

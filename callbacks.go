@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/jinzhu/gorm"
-	"github.com/qor/qor/utils"
+	"github.com/simonedbarber/qor/utils"
+	"gorm.io/gorm"
 )
 
 func beforeQuery(scope *gorm.Scope) {

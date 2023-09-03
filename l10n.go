@@ -7,11 +7,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/qor/admin"
-	"github.com/qor/qor"
-	"github.com/qor/qor/resource"
-	"github.com/qor/qor/utils"
-	"github.com/qor/roles"
+	"github.com/simonedbarber/admin"
+	"github.com/simonedbarber/qor"
+	"github.com/simonedbarber/qor/resource"
+	"github.com/simonedbarber/qor/utils"
+	"github.com/simonedbarber/roles"
+	"gorm.io/gorm"
 )
 
 // Global global language
@@ -107,8 +108,12 @@ func (l *Locale) ConfigureQorResource(res resource.Resourcer) {
 		res.Meta(&admin.Meta{Name: "Localization", Type: "localization", Valuer: func(value interface{}, ctx *qor.Context) interface{} {
 			var languageCodes []string
 			var db = ctx.GetDB()
-			var scope = db.NewScope(value)
-			db.New().Set("l10n:mode", "unscoped").Model(res.Value).Where(fmt.Sprintf("%v = ?", scope.PrimaryKey()), scope.PrimaryKeyValue()).Pluck("language_code", &languageCodes)
+			var scope = db.Session(&gorm.Session{NewDB: true}).Model(res.Value)
+			dbPrimaryField := scope.Statement.Schema.PrioritizedPrimaryField.DBName
+
+			primaryFieldValue := fmt.Sprintf("%v", reflect.Indirect(reflect.ValueOf(res.Value)).FieldByName(scope.Statement.Schema.PrioritizedPrimaryField.Name).Interface())
+
+			db.Session(&gorm.Session{NewDB: true}).Set("l10n:mode", "unscoped").Model(res.Value).Where(fmt.Sprintf("%v = ?", dbPrimaryField), primaryFieldValue).Pluck("language_code", &languageCodes)
 			return utils.SliceUniq(languageCodes)
 		}})
 
@@ -135,7 +140,7 @@ func (l *Locale) ConfigureQorResource(res resource.Resourcer) {
 		res.EditAttrs(res.EditAttrs(), "-LanguageCode", "-Localization")
 
 		// Set meta permissions
-		for _, field := range Admin.DB.NewScope(res.Value).Fields() {
+		for _, field := range Admin.DB.Session(&gorm.Session{NewDB: true}).Model(res.Value).Fields() {
 			if isSyncField(field.StructField) {
 				if meta := res.GetMeta(field.Name); meta != nil {
 					permission := meta.Meta.Permission
@@ -190,7 +195,7 @@ func (l *Locale) ConfigureQorResource(res resource.Resourcer) {
 		}
 
 		// Inject for l10n
-		Admin.RegisterViewPath("github.com/qor/l10n/views")
+		Admin.RegisterViewPath("github.com/simonedbarber/l10n/views")
 
 		// Middleware
 		Admin.GetRouter().Use(&admin.Middleware{

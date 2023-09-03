@@ -3,9 +3,9 @@ package l10n_test
 import (
 	"time"
 
-	"github.com/jinzhu/gorm"
-	"github.com/qor/l10n"
-	"github.com/qor/qor/test/utils"
+	"github.com/simonedbarber/l10n"
+	"github.com/simonedbarber/qor/test/utils"
+	"gorm.io/gorm"
 )
 
 type Product struct {

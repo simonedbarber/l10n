@@ -1,17 +1,17 @@
 # L10n
 
-L10n gives your [GORM](https://github.com/jinzhu/gorm) models the ability to localize for different Locales. It can be a catalyst for the adaptation of a product, application, or document content to meet the language, cultural, and other requirements of a specific target market.
+L10n gives your [GORM](https://gorm.io/gorm) models the ability to localize for different Locales. It can be a catalyst for the adaptation of a product, application, or document content to meet the language, cultural, and other requirements of a specific target market.
 
-[![GoDoc](https://godoc.org/github.com/qor/l10n?status.svg)](https://godoc.org/github.com/qor/l10n)
+[![GoDoc](https://godoc.org/github.com/simonedbarber/l10n?status.svg)](https://godoc.org/github.com/simonedbarber/l10n)
 
 ## Usage
 
-L10n utilizes [GORM](https://github.com/jinzhu/gorm) callbacks to handle localization, so you will need to register callbacks first:
+L10n utilizes [GORM](https://gorm.io/gorm) callbacks to handle localization, so you will need to register callbacks first:
 
 ```go
 import (
-  "github.com/jinzhu/gorm"
-  "github.com/qor/l10n"
+  "gorm.io/gorm"
+  "github.com/simonedbarber/l10n"
 )
 
 func main() {
@@ -33,7 +33,7 @@ type Product struct {
 }
 ```
 
-`l10n.Locale` will add a `language_code` column as a composite primary key with existing primary keys, using [GORM](https://github.com/jinzhu/gorm)'s AutoMigrate to create the field.
+`l10n.Locale` will add a `language_code` column as a composite primary key with existing primary keys, using [GORM](https://gorm.io/gorm)'s AutoMigrate to create the field.
 
 The `language_code` column will be used to save a localized model's Locale. If no Locale is set, then the global default Locale (`en-US`) will be used. You can override the global default Locale by setting `l10n.Global`, for example:
 
@@ -115,11 +115,11 @@ db.Set("l10n:mode", mode).First(&product, 111)
 
 ## Qor Integration
 
-Although L10n could be used alone, it integrates nicely with [QOR](https://github.com/qor/qor).
+Although L10n could be used alone, it integrates nicely with [QOR](https://github.com/simonedbarber/qor).
 
 [L10n Demo with QOR](http://demo.getqor.com/admin/products)
 
-By default, [QOR](https://github.com/qor/qor) will only allow you to manage the global language. If you have configured [Authentication](http://doc.getqor.com/admin/authentication.html), [QOR Admin](http://github.com/qor/admin) will try to obtain the allowed Locales from the current user.
+By default, [QOR](https://github.com/simonedbarber/qor) will only allow you to manage the global language. If you have configured [Authentication](http://doc.getqor.com/admin/authentication.html), [QOR Admin](http://github.com/simonedbarber/admin) will try to obtain the allowed Locales from the current user.
 
 * Viewable Locales - Locales for which the current user has read permission:
 
